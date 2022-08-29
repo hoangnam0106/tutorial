@@ -1,0 +1,62 @@
+<div class="flex flex-col flex-auto row" style="width: 110%;">
+    <form [formGroup]="createCustomerForm">
+        <div class="p-3 sm:px-6 pr-6 sm:pr-12">
+            <div class="bg-card rounded-md shadow border ">
+                <div class="pt-3 sm:pt-6 px-3 sm:px-6 rounded-t-md">
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Street</mat-label>
+                                <input matInput formControlName="street">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>City</mat-label>
+                                <input matInput formControlName="city">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>PostalCode</mat-label>
+                                <input matInput formControlName="postalCode">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Id No</mat-label>
+                                <input matInput formControlName="idNo">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="p-1 sm:p-3 bg-gray-200 dark:bg-gray-700 text-right rounded-b-md">
+                    <button disabled="{{!createCustomerForm.valid}}" mat-flat-button class="bg-primary" (click)="createCustomer()">
+                            <span class="inline-flex items-center">
+                                Thêm khách hàng
+                            </span>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

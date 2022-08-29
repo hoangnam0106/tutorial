@@ -1,0 +1,184 @@
+<div class="flex flex-col flex-auto row" style="width: 110%;">
+    <ng-container *ngIf="progressBar">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+
+    <form [formGroup]="searchConditionForm">
+        <div class="p-3 sm:px-6 pr-6 sm:pr-12">
+            <div class="bg-card rounded-md shadow border ">
+                <div class="pt-3 sm:pt-6 px-3 sm:px-6 rounded-t-md">
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/2 md:w-1/3 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Tên KH</mat-label>
+                                <input matInput formControlName="name">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/3 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Số điện thoại</mat-label>
+                                <input matInput formControlName="phone">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/3 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Nguồn</mat-label>
+                                <input matInput formControlName="source">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="p-1 sm:p-3 bg-gray-200 dark:bg-gray-700 text-right rounded-b-md">
+                    <button mat-flat-button class="bg-primary" (click)="search()">
+                        <span class="inline-flex items-center">
+                            <mat-icon [svgIcon]="'heroicons_solid:search'"></mat-icon>Tìm kiếm
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="flex flex-col sm:flex-col px-3 sm:px-6 pr-6 sm:pr-12 mt-4 pb-4 ">
+        <div class="box">
+            <div class="d-flex mb-3 custom-btn-add">
+
+            </div>
+            <div
+                class="bg-card rounded-md shadow border-t p-3 sm:p-4">
+                <ng-container *ngIf="!progressBar; else templateName">
+                    <div class="table-responsive">
+                        <table class="w-full bg-transparent" mat-table matSort [dataSource]="dataSource"
+                            #recentTransactionsTable>
+            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> STT.</th>
+                                <td mat-cell *matCellDef="let element; let i = index;"> {{i+1}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="assigneeName">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Người tiếp nhận
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{transaction.assignee_name}}
+                                    </span>
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="subject">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Nội dung Ticket
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+
+                                        <span class="aaa">
+                                            {{transaction.subject}}
+                                        </span>
+
+                                    </span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="status">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Trạng Thái
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+
+                                        <span class="inline-flex items-center font-bold text-xs px-2.5 py-0.5 rounded-full tracking-wide uppercase"
+                                        [ngClass]="{'bg-red-200 text-red-800 dark:bg-red-600 dark:text-red-50': transaction.status == 'Đóng',
+                                        'bg-green-200 text-green-800 dark:bg-green-600 dark:text-green-50': transaction.status === 'Mới'}"
+                                        >
+                                            {{transaction.status}}
+                                        </span>
+
+                                    </span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="contactName">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Tên Khách hàng
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <a routerLink="/base/support/call_center_master/detail/{{transaction.id}}" matTooltip="Xem chi tiết">
+                                        <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                            {{transaction.ticket_contact_name}}
+                                        </span>
+                                    </a>
+                                </td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="priority">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Độ ưu tiên
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{transaction.priority}}
+                                    </span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="customerPhoneNumber">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Số điện thoại
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{transaction.customer_number}}
+                                    </span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="createReason">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Kênh tương tác
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{transaction.create_reason}}
+                                    </span>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="created">
+                                <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                    Ngày tạo
+                                </th>
+                                <td mat-cell *matCellDef="let transaction">
+                                    <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{formatDateTimeFromStringgeex(transaction.created,1)}}
+                                    </span>
+                                </td>
+                            </ng-container>
+
+                            <!-- Footer -->
+                            <ng-container matColumnDef="recentOrdersTableFooter">
+                                <td class="py-6 px-0 border-0" mat-footer-cell *matFooterCellDef colspan="6">
+                                    <mat-paginator (page)="handlePageEvent($event)" [pageSizeOptions]="pageSizeOptions"
+                                        [pageSize]="pageSize" class="sticky left-0" [length]="length"
+                                        [pageIndex]="pageIndex" aria-label="Select page"></mat-paginator>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="cols">
+                            </tr>
+                            <tr class="order-row h-16" mat-row *matRowDef="let row; columns: cols;">
+                            </tr>
+                            <tr class="h-16 border-0" mat-footer-row *matFooterRowDef="['recentOrdersTableFooter']">
+                            </tr>
+                        </table>
+                    </div>
+
+                </ng-container>
+                <ng-template #templateName>
+                    Không có bản ghi nào
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+</div>

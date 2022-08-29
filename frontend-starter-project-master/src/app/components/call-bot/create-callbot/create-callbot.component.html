@@ -1,0 +1,50 @@
+<form [formGroup]="createConditionForm">
+    <div class="p-3 sm:px-6 pr-6 sm:pr-12">
+        <div class="bg-card rounded-md shadow border ">
+            <div class="pt-3 sm:pt-6 px-3 sm:px-6 rounded-t-md">
+                <div class="flex flex-wrap">
+                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>SĐT</mat-label>
+                            <input matInput formControlName="customerPhone">
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>Thời gian gọi</mat-label>
+                            <input matInput formControlName="callAt">
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>Thời gian bắt máy</mat-label>
+                            <input matInput formControlName="pickupAt">
+                        </mat-form-field>
+                    </div>
+                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                        <mat-form-field appearance="fill" class="w-full">
+                            <mat-label>Trạng thái</mat-label>
+                            <mat-select matInput formControlName="status">
+                                <mat-option>None</mat-option>
+                                <mat-option value="100">Thành công</mat-option>
+                                <mat-option value="101">Khách hàng cúp máy giữa chừng</mat-option>
+                                <mat-option value="102">Chuyển sang cho ĐTV</mat-option>
+                                <mat-option value="103">Cuộc gọi nhỡ hoặc thuê bao</mat-option>
+                                <mat-option value="104">Cuộc gọi thuê bao</mat-option>
+                                <mat-option value="105">Kết thúc do lỗi hệ thống</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="p-1 sm:p-3 bg-gray-200 dark:bg-gray-700 text-right rounded-b-md">
+                <button mat-flat-button class="bg-primary" >
+                    <span class="inline-flex items-center" (click)="create()">
+                        Thêm khách hàng
+                    </span>
+                </button>   
+          
+            </div>
+        </div>
+    </div>

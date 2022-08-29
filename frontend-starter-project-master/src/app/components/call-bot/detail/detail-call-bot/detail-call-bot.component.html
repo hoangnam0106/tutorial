@@ -1,0 +1,125 @@
+<div class="flex flex-col flex-auto w-full" id="view-opportunity">
+    <div class="flex flex-col p-3 sm:p-6">
+        <!-- Breadcrumbs -->
+        <div>
+            <div class="hidden sm:flex flex-wrap items-center font-medium">
+                <div>
+                    <a routerLink="/dashboards/call-bot" class="whitespace-nowrap font-bold">Danh sách Phiếu ghi</a>
+                </div>
+                <div class="flex items-center ml-1 whitespace-nowrap font-bold text-primary-500">
+                    <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">Chi tiết phiếu ghi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="flex flex-col pl-3 pr-3 pb-3 sm:pl-6 sm:pr-6 sm:pb-6">
+        <div class="flex flex-col items-start w-full p-8 space-y-8 rounded-2xl shadow bg-card">
+            <div class="row w-full">
+                <div class="col-md-12 col-12">
+                    <div class="heading-title">Thông tin cơ bản</div>
+                    <div class="row w-full">
+                        <div class="col-3">
+                            <div >SĐT</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ? info.customerPhone : ''}}
+                            </div>
+                           
+                        </div>
+                        <div class="col-3">
+                            <div >Trạng thái</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ?info.status :''}}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-full">
+                        <div class="col-3">
+                            Thời gian gọi
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ?formatDateTime(info.callAt) :''}}
+
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            Thời gian nhấc máy
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                            {{info ?formatDateTime(info.pickupAt) :''}}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="info">
+                        <div *ngIf="info.reportObj != {} && info.reportObj != null && info.reportObj != ''">
+                            <div class="heading-title">Thông tin đầu vào cuộc gọi</div>
+                            <ng-container *ngFor="let item of createRange(info.reportObj);index as i">
+                                <div class="row w-full">
+                                    <div class="col-3">
+                                        {{item[0]}}
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="font-bold mb-2">
+                                            {{item[1]}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div *ngIf="info">
+                        <div *ngIf="info.reportObj">
+                            <div class="heading-title">Thông tin tổng hợp kết quả gọi</div>
+                        
+                            <div class="row w-full">
+                                <div class="col-3">
+                                    <div class="font-bold mb-2">Người gửi</div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-bold mb-2">Thời gian bắt đầu</div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-bold mb-2">Thời gian kết thúc</div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="font-bold mb-2">
+                                        Tin nhắn
+                                    </div>
+                                </div>
+                            </div>      
+                            <div class="row info-call">
+                                <ng-container *ngFor="let item of info.contents;index as i">
+                                    <div class="row w-full border-top-info">
+                                        <div class="col-3 p-2">
+                                            {{item.sender}}
+                                        </div>
+                                        <div class="col-3 p-2">
+                                            {{item.start_time}}
+                                        </div>
+                                        <div class="col-3 p-2">
+                                            {{item.end_time}}
+                                        </div>
+                                        <div class="col-3 p-2">
+                                            {{item.message}}
+                                        </div>
+                                    </div>       
+                                </ng-container>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>

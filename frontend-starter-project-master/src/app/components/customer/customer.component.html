@@ -1,0 +1,222 @@
+<div class="flex flex-col flex-auto row" style="width: 110%;">
+    <ng-container *ngIf="progressBar">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </ng-container>
+
+    <form [formGroup]="searchCustomerForm">
+        <div class="p-3 sm:px-6 pr-6 sm:pr-12">
+            <div class="bg-card rounded-md shadow border ">
+                <div class="pt-3 sm:pt-6 px-3 sm:px-6 rounded-t-md">
+                    <div class="flex flex-wrap">
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>First Name</mat-label>
+                                <input matInput formControlName="firstName">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput formControlName="lastName">
+                            </mat-form-field>
+                        </div>
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Street</mat-label>
+                                <input matInput formControlName="street">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>City</mat-label>
+                                <input matInput formControlName="city">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>PostalCode</mat-label>
+                                <input matInput formControlName="postalCode">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                            <mat-form-field class="w-full">
+                                <mat-label>Id No</mat-label>
+                                <input matInput formControlName="idNo">
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="p-1 sm:p-3 bg-gray-200 dark:bg-gray-700 text-right rounded-b-md">
+                    <input type="file" class="form-control form-control-lg" id="formFileLg" (change)="onChange($event)" (click) = "clear()" #inputFile>
+                    <button (click)="open()" ></button>
+                    <button mat-flat-button class="bg-primary" (click)="search()">
+                        <span class="inline-flex items-center">
+                            Tìm kiếm
+                        </span>
+                    </button>
+
+                    <button mat-flat-button class="bg-primary" >
+                        <span class="inline-flex items-center" routerLink="/customer/create" >
+                            Thêm khách hàng
+                        </span>
+                    </button>
+
+                    <button mat-flat-button class="bg-primary" (click)="deleteCustomers()">
+                        <span class="inline-flex items-center">
+                            Xóa
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Actions -->
+    </form>
+
+    <div class="p-3 sm:px-6 pr-6 sm:pr-12">
+        <div class="box">
+            <div class="d-flex mb-3 custom-btn-add">
+
+            </div>
+            <div
+                    class="inventory-grid z-10 sticky top-0 grid gap-4 py-4 px-6 md:px-8 shadow text-md font-semibold text-secondary bg-gray-50 dark:bg-black dark:bg-opacity-5">
+                <ng-container *ngIf="!progressBar; else templateName">
+                    <table class="w-full bg-transparent" mat-table matSort [dataSource]="dataSource"
+                           #recentTransactionsTable>
+
+                        <ng-container matColumnDef="checkBox">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="$event ? masterToggle() : null"
+                                              [checked]="selection.hasValue() && isAllSelected()"
+                                              [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let row">
+                                <mat-checkbox (change)="$event ? handleCheckBoxEvent($event, row.id) : null"
+
+                                              [checked]="selection.isSelected(row)">
+                                </mat-checkbox>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="id">
+
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT.</th>
+                            <td mat-cell *matCellDef="let element; let i = index;"> {{i+1 + pageSize*pageIndex}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="firstName">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                First Name
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium">
+                                        {{customer.firstName}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="lastName">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                Last Name
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium">
+
+                                    <ng-container>
+                                        <span class="duplicate">
+                                            {{customer.lastName}}
+
+                                        </span>
+                                    </ng-container>
+
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="street">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                Street
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium">
+
+                                    <ng-container>
+                                        <span class="duplicate">
+                                            {{customer.street}}
+                                        </span>
+                                    </ng-container>
+
+                                </span>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="city">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                City
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                    {{customer.city}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="postalCode">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                Postalcode
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                    {{customer.postalCode}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="idNo">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                ID No
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                    {{customer.idNo}}
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                                Action
+                            </th>
+                            <td mat-cell *matCellDef="let customer">
+                                <button mat-flat-button class="bg-primary" routerLink="/customer/invoice">
+                                <span class="inline-flex items-center">
+                                    Tạo đơn
+                                </span>
+                                </button>
+                            </td>
+
+                        </ng-container>
+
+                        <!-- Footer -->
+                        <tr mat-header-row *matHeaderRowDef="cols"></tr>
+                        <tr class="order-row h-16" mat-row *matRowDef="let row; columns: cols;"></tr>
+                        <!-- <tr class="h-16 border-0" mat-footer-row *matFooterRowDef="['recentOrdersTableFooter']"></tr> -->
+                    </table>
+                </ng-container>
+
+                <mat-paginator [pageSizeOptions]="pageSizeOptions"
+                               [pageSize]="pageSize" class="sticky left-0" [length]="length"
+                               [pageIndex]="pageIndex" aria-label="Select page"
+                               (page)="handlePageEvent($event)">
+                </mat-paginator>
+
+                <ng-template #templateName>
+                    Không có bản ghi nào
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

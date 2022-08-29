@@ -1,0 +1,109 @@
+<div class="flex flex-col flex-auto w-full" id="view-opportunity">
+    <div class="flex flex-col p-3 sm:p-6">
+        <!-- Breadcrumbs -->
+        <div>
+            <div class="hidden sm:flex flex-wrap items-center font-medium">
+                <div>
+                    <a routerLink="/base/support/call_center_master" class="whitespace-nowrap font-bold">Danh sách Phiếu ghi</a>
+                </div>
+
+
+                <div class="flex items-center ml-1 whitespace-nowrap font-bold text-primary-500">
+                    <mat-icon
+                            class="icon-size-5 text-secondary"
+                            [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                    <span class="ml-1 text-secondary">Chi tiết phiếu ghi</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="flex flex-col pl-3 pr-3 pb-3 sm:pl-6 sm:pr-6 sm:pb-6">
+        <div class="flex flex-col items-start w-full p-8 space-y-8 rounded-2xl shadow bg-card">
+            <div class="row w-full">
+                <div class="col-md-12 col-12">
+                    <div class="row w-full">
+                        <div class="col-3">
+                            Mã phiếu ghi
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ? info.ASSIGNEE : ''}}</div>
+                        </div>
+                        <div class="col-3">
+                            Người tiếp nhận
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ? info.ASSIGNEE_NAME : ''}}</div>
+                        </div>
+                    </div>
+                    <div class="row w-full">
+                        <div class="col-3">
+                            Tên khách hàng
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ? info.CONTACT_NAME:''}}</div>
+                        </div>
+                        <div class="col-3">
+                            Trạng thái
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ? status[info.STATUS]:''}}</div>
+                        </div>
+                    </div>
+                    <div class="row w-full">
+                        <div class="col-3">
+                            Ưu tiên
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ?priority[info.PRIORITY] :''}}</div>
+                        </div>
+                        <div class="col-3">
+                            Kênh tương tác
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ? createReason[info.CREATE_REASON] : 'Hotline'}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row w-full">
+                        <div class="col-3">
+                            SĐT
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ?info.CUSTOMER_PHONE_NUMBER :''}}</div>
+                        </div>
+                        <div class="col-3">
+                            Trạng thái cuộc gọi
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ? direction[info.DIRECTION] :''}}
+                            </div>
+                        </div>
+                    </div>                                       
+                    <div class="row w-full">
+                        <div class="col-3">
+                            Nội dung phiếu ghi
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">{{info ? info.SUBJECT:''}}</div>
+                        </div>
+                        <div class="col-3">
+                            Ngày tạo
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                {{info ? formatDateFromTimeStamp(info.CREATED):''}}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+
