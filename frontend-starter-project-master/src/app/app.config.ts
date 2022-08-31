@@ -15,7 +15,8 @@ export const KEYCLOAK_CONFIG = {
 };
 
 export const SERVICE_URLS = {
-    partners: 'http://10.201.214.4:8000/mpg/v2/partners'
+    partners: 'http://10.201.214.4:8000/mpg/v2/partners',
+    customers: 'http://localhost:8080/api/v1/customer'
 };
 
 export const WELCOME_PATHS: any[] = [

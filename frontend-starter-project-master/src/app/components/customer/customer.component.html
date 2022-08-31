@@ -52,8 +52,14 @@
                 </div>
                 <mat-divider></mat-divider>
                 <div class="p-1 sm:p-3 bg-gray-200 dark:bg-gray-700 text-right rounded-b-md">
-                    <input type="file" class="form-control form-control-lg" id="formFileLg" (change)="onChange($event)" (click) = "clear()" #inputFile>
-                    <button (click)="open()" ></button>
+                    <input  type="file" class="form-control-file" (change)="importFile($event)" (click) = "clear()" #inputFile>
+
+                    <button disabled = "{{!isExport}}" mat-flat-button class="bg-primary" (click)="goToLink('/download')">
+                        <span class="inline-flex items-center">
+                            Error
+                        </span>
+                    </button>
+
                     <button mat-flat-button class="bg-primary" (click)="search()">
                         <span class="inline-flex items-center">
                             Tìm kiếm
@@ -90,15 +96,14 @@
                            #recentTransactionsTable>
 
                         <ng-container matColumnDef="checkBox">
-                            <th mat-header-cell *matHeaderCellDef>
+                            <th mat-header-cell *matHeaderCellDef #masterCheckbox>
                                 <mat-checkbox (change)="$event ? masterToggle() : null"
                                               [checked]="selection.hasValue() && isAllSelected()"
                                               [indeterminate]="selection.hasValue() && !isAllSelected()">
                                 </mat-checkbox>
                             </th>
                             <td mat-cell *matCellDef="let row">
-                                <mat-checkbox (change)="$event ? handleCheckBoxEvent($event, row.id) : null"
-
+                                <mat-checkbox (change)="$event ? handleCheckBoxEvent($event, row) : null"
                                               [checked]="selection.isSelected(row)">
                                 </mat-checkbox>
                             </td>
@@ -191,7 +196,7 @@
                                 Action
                             </th>
                             <td mat-cell *matCellDef="let customer">
-                                <button mat-flat-button class="bg-primary" routerLink="/customer/invoice">
+                                <button mat-flat-button class="bg-primary" routerLink="/customer/invoice/create">
                                 <span class="inline-flex items-center">
                                     Tạo đơn
                                 </span>

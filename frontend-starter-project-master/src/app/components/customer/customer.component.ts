@@ -5,13 +5,11 @@ import {CustomerService} from "./customer.service";
 import {MatPaginator, PageEvent} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatCheckboxChange} from "@angular/material/checkbox";
-import {data} from "autoprefixer";
 import {SelectionModel} from "@angular/cdk/collections";
-import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs";
 import {BasicResponse} from "../../shared/basic-response";
 import {clone} from "lodash-es";
 import {FuseConfirmationService} from "../../../@fuse/services/confirmation";
+import {SERVICE_URLS} from "../../app.config";
 
 @Component({
   selector: 'app-customer',
@@ -23,18 +21,20 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   @ViewChild('recentTransactionsTable', { read: MatSort }) recentTransactionsTableMatSort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('inputFile') inputFile: ElementRef;
+  @ViewChild('masterCheckbox') masterCheckbox: ElementRef;
+  baseUrl = "http://localhost:8080/api/v1/customer";
   progressBar = false;
   length = 0;
   pageSize: number;
   pageIndex: number;
-  pageSizeOptions = [5, 10, 15];
+  pageSizeOptions = [5, 10, 15, 20, 25];
   cols = ['checkBox','id','firstName', 'lastName', 'street','city', 'postalCode', 'idNo', 'action']
   dataSource: MatTableDataSource<any> = new MatTableDataSource();
   searchCustomerForm: FormGroup = new FormGroup({});
   listSelect = new Array();
   file: File = null;
   successResponse;
-  errorResponse;
+  isExport: boolean = false;
   selection = new SelectionModel(true)
   constructor(private fb: FormBuilder,
               private customerService: CustomerService,
@@ -134,12 +134,14 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     })
   }
 
-  handleCheckBoxEvent(event: MatCheckboxChange, id: any){
+  handleCheckBoxEvent(event: MatCheckboxChange, row: any){
     if(event.checked){
-      this.listSelect.push(id);
+      this.listSelect.push(row.id);
+      this.selection.select(row);
     }else if(!event.checked){
+      this.selection.deselect(row);
       this.listSelect.forEach((item,index) => {
-        if(item === id) this.listSelect.splice(index,1);
+        if(item === row.id) this.listSelect.splice(index,1);
       })
     }
 
@@ -148,7 +150,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   isAllSelected(){
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
-    console.log(numSelected === numRows)
     return numSelected === numRows;
   }
 
@@ -166,12 +167,18 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.listSelect.forEach(id => this.delete(id));
   }
 
-  onChange(event){
+  importFile(event){
     this.file = event.target.files[0];
     this.customerService.upload(this.file).subscribe(data => {
-      this.search();
-      this.showSuccessDialog(data);
-      this.clear();
+      if(data != null){
+        this.search();
+        this.showSuccessDialog(data);
+        this.clear();
+        this.isExport = true;
+      }else{
+        this.clear();
+        this.showErrorDialog();
+      }
     }, error => {
       this.clear();
       this.showErrorDialog();
@@ -183,8 +190,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this.inputFile.nativeElement.value = '';
   }
 
-  open(){
-    window.open()
+  goToLink(url: string){
+    window.open(SERVICE_URLS.customers + url, "_blank");
   }
 
   createInvoice(){
@@ -196,8 +203,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     this._fuseConfirmationService.open(
         {
           'title': 'Import file excel success',
-          'message': '<br/><pre>'+"Thêm thành công: " + this.successResponse.result.saveCount + '<br/>' +
-                      "Thêm lỗi: " + this.successResponse.result.errorCount +'</pre>',
+          'message': '<br/><pre>'+"Thêm thành công: " + this.successResponse.result.importIF.saveCount + '<br/>' +
+                      "Thêm lỗi: " + this.successResponse.result.importIF.errorCount +'</pre>',
           'icon': {
             'show': true,
             'name': 'mat_outline:check',

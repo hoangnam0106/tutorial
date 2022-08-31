@@ -21,6 +21,7 @@ import { CreateCallbotComponent } from './components/call-bot/create-callbot/cre
 import {CustomerComponent} from "./components/customer/customer.component";
 import {CreateCustomerComponent} from "./components/customer/create-customer/create-customer.component";
 import {InvoiceComponent} from "./components/invoice/invoice.component";
+import {CreateInvoiceComponent} from "./components/invoice/create-invoice/create-invoice.component";
 
 // @formatter:off
 // tslint:disable:max-line-length
@@ -45,6 +46,7 @@ export const appRoutes: Route[] = [
             {path: 'dashboards/call-bot/:id', component: DetailCallBotComponent},
             {path: 'dashboards/customer/list', component: CustomerComponent},
             {path: 'customer/create', component: CreateCustomerComponent},
+            {path: 'customer/invoice/create', component: CreateInvoiceComponent},
             {path: 'customer/invoice', component: InvoiceComponent},
             {path: 'call-bot/create', component: CreateCallbotComponent},
             {path: 'partners/create', component: CreatePartnerComponent},

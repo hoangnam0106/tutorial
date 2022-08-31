@@ -1,0 +1,100 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <span class="text-lg font-bold px-6 sm:px-12 mt-3 sm:mt-6">
+        Tạo đơn hàng
+    </span>
+    <!-- Main -->
+    <div class="flex-col p-3 sm:p-6">
+        <!--  CONTENT HERE -->
+        <div class="bg-card shadow rounded overflow-hidden">
+            <div class="max-h-400 p-3 sm:p-6">
+
+                <div class="text-lg font-medium mb-5 font-bold">Thông tin khách hàng</div>
+
+                <!-- Basic information  -->
+
+                <div class="col-md-12 col-12">
+
+                    <div class="row w-full flex">
+                        <div class="col-sm" style="margin-right: 30px">
+                            <div >First Name</div>
+                        </div>
+                        <div class="col-sm" style="margin-right: 30px">
+                            <div class="font-bold mb-2">
+                                abc
+                            </div>
+
+                        </div>
+                        <div class="col-3" style="margin-right: 30px">
+                            <div>Last Name</div>
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                abc
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-full">
+                        <div class="col-3">
+                            City
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                gfdf
+
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            Street
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                dsaa
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row w-full">
+                        <div class="col-3 sm:w-1/2 sm:pr-5">
+                            Postal Code
+                        </div>
+                        <div class="col-3 sm:w-1/2 sm:pr-5">
+                            <div class="font-bold mb-2">
+                                gfdf
+
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            Id No
+                        </div>
+                        <div class="col-3">
+                            <div class="font-bold mb-2">
+                                dsaa
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <mat-grid-list cols="3" rowHeight="30px">
+                <mat-grid-tile>1</mat-grid-tile>
+                <mat-grid-tile>2</mat-grid-tile>
+                <mat-grid-tile>
+                    <button class="btn btn-primary" (click)="plus()">+</button>
+                    <div class="form-check-inline">
+                        <input type="text" class="form-control" style="text-align: center" [ngModel]="quantity">
+                    </div>
+                    <button class="btn btn-primary" (click)="minus()">-</button>
+                </mat-grid-tile>
+
+            </mat-grid-list>
+
+            <div class="flex items-center justify-end border-t p-3 sm:p-6 bg-gray-50 dark:bg-gray-700">
+                <button mat-button >Reset</button>
+                <span class="ml-5"></span>
+                <button  mat-flat-button color="primary" >Create</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+

@@ -23,7 +23,7 @@ import { TransactionReportComponent } from './components/reports/transaction-rep
 import { DepositReportComponent } from './components/reports/deposit-report/deposit-report.component';
 import { CloseBalanceReportComponent } from './components/reports/close-balance-report/close-balance-report.component';
 import {KeycloakAngularModule} from 'keycloak-angular';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDividerModule} from '@angular/material/divider';
@@ -50,6 +50,10 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CreateCustomerComponent } from './components/customer/create-customer/create-customer.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import { CreateInvoiceComponent } from './components/invoice/create-invoice/create-invoice.component';
+import {MatListModule} from '@angular/material/list';
+import {MatGridListModule} from "@angular/material/grid-list";
+
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
     scrollPositionRestoration: 'enabled',
@@ -77,7 +81,8 @@ const routerConfig: ExtraOptions = {
         CreateCallbotComponent,
         CustomerComponent,
         CreateCustomerComponent,
-        InvoiceComponent
+        InvoiceComponent,
+        CreateInvoiceComponent
 
     ],
     imports: [
@@ -117,8 +122,10 @@ const routerConfig: ExtraOptions = {
         FuseAlertModule,
         FuseHighlightModule,
         MatProgressBarModule,
-        MatCheckboxModule
-
+        MatCheckboxModule,
+        MatListModule,
+        MatGridListModule,
+        FormsModule
     ],
     providers:[DatePipe],
     // providers:[
