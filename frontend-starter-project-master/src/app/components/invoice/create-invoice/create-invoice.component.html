@@ -1,97 +1,322 @@
 <div class="flex flex-col flex-auto min-w-0">
     <span class="text-lg font-bold px-6 sm:px-12 mt-3 sm:mt-6">
-        Tạo đơn hàng
+        Đơn hàng
     </span>
     <!-- Main -->
     <div class="flex-col p-3 sm:p-6">
         <!--  CONTENT HERE -->
         <div class="bg-card shadow rounded overflow-hidden">
-            <div class="max-h-400 p-3 sm:p-6">
+            <div class="w-full sm:w-1/2 md:w-1/4 pr-3">
+                <mat-form-field class="w-full" appearance="fill">
+                    <mat-label>Khách hàng</mat-label>
+                    <mat-select [(value)]="customerId" (valueChange)="getCustomer(customerId)">
+                        <mat-option *ngFor="let customer of customers" [value]="customer.id">
+                            {{customer.id +' | ' + customer.firstName + ' '+ customer.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        <div *ngIf="customerId">
+            <div class="text-lg font-medium mb-5 font-bold">Thông tin khách hàng</div>
 
-                <div class="text-lg font-medium mb-5 font-bold">Thông tin khách hàng</div>
+            <div class="col-md-12 col-12" *ngIf="customer">
 
-                <!-- Basic information  -->
-
-                <div class="col-md-12 col-12">
-
-                    <div class="row w-full flex">
-                        <div class="col-sm" style="margin-right: 30px">
-                            <div >First Name</div>
+                <div class="row w-full flex">
+                    <div class="col-sm pr-5">
+                        <div >First Name</div>
+                    </div>
+                    <div class="col-sm pr-5">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.firstName: ''}}
                         </div>
-                        <div class="col-sm" style="margin-right: 30px">
-                            <div class="font-bold mb-2">
-                                abc
-                            </div>
 
-                        </div>
-                        <div class="col-3" style="margin-right: 30px">
-                            <div>Last Name</div>
-                        </div>
-                        <div class="col-3">
-                            <div class="font-bold mb-2">
-                                abc
-                            </div>
+                    </div>
+                    <div class="col-3 pr-5">
+                        <div>Last Name</div>
+                    </div>
+                    <div class="col-3 pr-5">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.lastName: ''}}
                         </div>
                     </div>
-                    <div class="row w-full">
-                        <div class="col-3">
-                            City
-                        </div>
-                        <div class="col-3">
-                            <div class="font-bold mb-2">
-                                gfdf
-
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            Street
-                        </div>
-                        <div class="col-3">
-                            <div class="font-bold mb-2">
-                                dsaa
-                            </div>
+                </div>
+                <div class="row w-full">
+                    <div class="col-3">
+                        City
+                    </div>
+                    <div class="col-3">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.city: ''}}
                         </div>
                     </div>
-                    <div class="row w-full">
-                        <div class="col-3 sm:w-1/2 sm:pr-5">
-                            Postal Code
+                    <div class="col-3">
+                        Street
+                    </div>
+                    <div class="col-3">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.street: ''}}
                         </div>
-                        <div class="col-3 sm:w-1/2 sm:pr-5">
-                            <div class="font-bold mb-2">
-                                gfdf
-
-                            </div>
+                    </div>
+                </div>
+                <div class="row w-full" >
+                    <div class="col-3 sm:w-1/2 sm:pr-5">
+                        Postal Code
+                    </div>
+                    <div class="col-3 sm:w-1/2 sm:pr-5">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.postalCode: ''}}
                         </div>
-                        <div class="col-3">
-                            Id No
-                        </div>
-                        <div class="col-3">
-                            <div class="font-bold mb-2">
-                                dsaa
-                            </div>
+                    </div>
+                    <div class="col-3">
+                        Id No
+                    </div>
+                    <div class="col-3">
+                        <div class="font-bold mb-2">
+                            {{customer? customer.idNo: ''}}
                         </div>
                     </div>
                 </div>
             </div>
+            <div *ngIf="!detail">
+                <div class="text-lg font-medium mb-5 font-bold">Danh sách hóa đơn</div>
+
+                <table  class="w-full bg-transparent" mat-table matSort [dataSource]="dataSource">
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            STT
+                        </th>
+                        <td mat-cell *matCellDef="let invoice; let i = index">
+                            <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                {{i + 1}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Ngày tạo đơn
+                        </th>
+                        <td mat-cell *matCellDef="let invoice">
+                            <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                {{invoice.invoiceDate | date:'dd-MM-yyyy'}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Tổng tiền
+                        </th>
+                        <td mat-cell *matCellDef="let invoice">
+                            <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                {{invoice.total}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Thao tác
+                        </th>
+                        <td mat-cell *matCellDef="let invoice">
+                            <button  mat-flat-button color="primary" (click)="setDataDetail(invoice.id)">Chi tiết</button>
+                        </td>
+                    </ng-container>
 
 
-            <mat-grid-list cols="3" rowHeight="30px">
-                <mat-grid-tile>1</mat-grid-tile>
-                <mat-grid-tile>2</mat-grid-tile>
-                <mat-grid-tile>
-                    <button class="btn btn-primary" (click)="plus()">+</button>
-                    <div class="form-check-inline">
-                        <input type="text" class="form-control" style="text-align: center" [ngModel]="quantity">
+                    <!-- Footer -->
+                    <tr mat-header-row *matHeaderRowDef="cols"></tr>
+                    <tr class="order-row h-16" mat-row *matRowDef="let row; columns: cols;"></tr>
+                    <!-- <tr class="h-16 border-0" mat-footer-row *matFooterRowDef="['recentOrdersTableFooter']"></tr> -->
+                </table>
+            </div>
+
+            <div *ngIf="detail">
+                <div class="hidden sm:flex flex-wrap items-center font-medium mb-5">
+                    <div>
+                        <button (click) ="findInvoiceByCustomerId(customerId)" class="whitespace-nowrap font-bold text-lg font-medium">Danh sách hóa đơn</button>
                     </div>
-                    <button class="btn btn-primary" (click)="minus()">-</button>
-                </mat-grid-tile>
+                    <div class="flex items-center ml-1 whitespace-nowrap font-bold text-primary-500">
+                        <mat-icon
+                                class="icon-size-5 text-secondary"
+                                [svgIcon]="'heroicons_solid:chevron-right'"></mat-icon>
+                        <span class="ml-1 text-secondary">Chi tiết hóa đơn</span>
+                    </div>
+                </div>
 
-            </mat-grid-list>
+                <table  class="w-full bg-transparent" mat-table matSort [dataSource]="dataSourceDetail">
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Tên sản phẩm
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                            <span class="pr-6 whitespace-nowrap font-medium">
 
-            <div class="flex items-center justify-end border-t p-3 sm:p-6 bg-gray-50 dark:bg-gray-700">
-                <button mat-button >Reset</button>
-                <span class="ml-5"></span>
-                <button  mat-flat-button color="primary" >Create</button>
+                                <ng-container>
+                                    <span class="duplicate">
+                                        {{item.item}}
+                                    </span>
+                                </ng-container>
+
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="price">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Đơn giá
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                            <span class="pr-6 whitespace-nowrap font-medium">
+                                <ng-container>
+                                    <span class="duplicate">
+                                        {{item.price}}
+                                    </span>
+                                </ng-container>
+
+                            </span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="vat">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            VAT
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                            <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                {{item.vat}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="quantity">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Số lượng
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                            <input (input)="changeQuantity(item.id, $event)" value="{{item.quantity}}">
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="total">
+                        <th mat-header-cell mat-sort-header *matHeaderCellDef>
+                            Tổng tiền
+                        </th>
+                        <td mat-cell *matCellDef="let item">
+                            <span class="pr-6 whitespace-nowrap font-medium text-blue-500">
+                                    {{total.get(item.id) == null ? item.quantity * item.price: total.get(item.id)}}
+                            </span>
+                        </td>
+                    </ng-container>
+                    <!-- Footer -->
+                    <tr mat-header-row *matHeaderRowDef="colsDetail"></tr>
+                    <tr class="order-row h-16" mat-row *matRowDef="let row; columns: colsDetail;"></tr>
+                    <!-- <tr class="h-16 border-0" mat-footer-row *matFooterRowDef="['recentOrdersTableFooter']"></tr> -->
+                </table>
+
+                <div class="flex items-center justify-end border-t p-3 sm:p-6 bg-gray-50 dark:bg-gray-700">
+                    <button mat-flat-button color="primary" (click)="updateItems()">Sửa</button>
+                    <button mat-flat-button color="primary" (click)="addItem()">Thêm</button>
+                </div>
+            </div>
+        </div>
+<!--            <div class="max-h-400 p-3 sm:p-6">-->
+<!--                <div class="text-lg font-medium mb-5 font-bold">Thông tin khách hàng</div>-->
+
+<!--                &lt;!&ndash; Basic information  &ndash;&gt;-->
+
+<!--                <div class="col-md-12 col-12">-->
+
+<!--                    <div class="row w-full flex">-->
+<!--                        <div class="col-sm pr-5">-->
+<!--                            <div >First Name</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-sm pr-5">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.firstName: ''}}-->
+<!--                            </div>-->
+
+<!--                        </div>-->
+<!--                        <div class="col-3 pr-5">-->
+<!--                            <div>Last Name</div>-->
+<!--                        </div>-->
+<!--                        <div class="col-3 pr-5">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.lastName: ''}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row w-full">-->
+<!--                        <div class="col-3">-->
+<!--                            City-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.city: ''}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            Street-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.street: ''}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="row w-full" >-->
+<!--                        <div class="col-3 sm:w-1/2 sm:pr-5">-->
+<!--                            Postal Code-->
+<!--                        </div>-->
+<!--                        <div class="col-3 sm:w-1/2 sm:pr-5">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.postalCode: ''}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            Id No-->
+<!--                        </div>-->
+<!--                        <div class="col-3">-->
+<!--                            <div class="font-bold mb-2">-->
+<!--                                {{customer? customer.idNo: ''}}-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <div class="flex flex-wrap">-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium font-bold">-->
+<!--                        <div> Tên sản phẩm  </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium font-bold">-->
+<!--                        <div> Đơn giá </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium font-bold">-->
+<!--                        <div> VAT </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium font-bold">-->
+<!--                        <div> Số lượng </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div *ngFor="let product of items">-->
+<!--                <div class="flex flex-wrap">-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium">-->
+<!--                        <div> {{product.item}}  </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium">-->
+<!--                        <div> {{product.price}} </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium">-->
+<!--                        <div> {{product.vat}} </div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full sm:w-1/2 md:w-1/4 pr-3 border-b font-medium">-->
+<!--                        <input value="{{product.quantity ? product.quantity: 0}}" (change)="changeQuantity(product.productId,$event)">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="flex items-center justify-end border-t p-3 sm:p-6 bg-gray-50 dark:bg-gray-700" *ngIf="!detail">
+                <button disabled="{{customerId == null}}" mat-flat-button color="primary" >Thêm hóa đơn</button>
             </div>
         </div>
 

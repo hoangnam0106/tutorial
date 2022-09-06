@@ -124,7 +124,6 @@
                             </td>
                         </ng-container>
 
-
                         <ng-container matColumnDef="lastName">
                             <th mat-header-cell mat-sort-header *matHeaderCellDef>
                                 Last Name
@@ -196,7 +195,7 @@
                                 Action
                             </th>
                             <td mat-cell *matCellDef="let customer">
-                                <button mat-flat-button class="bg-primary" routerLink="/customer/invoice/create">
+                                <button mat-flat-button class="bg-primary" routerLink="/customer/invoice/create/{{customer.id}}">
                                 <span class="inline-flex items-center">
                                     Tạo đơn
                                 </span>

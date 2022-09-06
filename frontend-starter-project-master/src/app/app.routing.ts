@@ -46,7 +46,7 @@ export const appRoutes: Route[] = [
             {path: 'dashboards/call-bot/:id', component: DetailCallBotComponent},
             {path: 'dashboards/customer/list', component: CustomerComponent},
             {path: 'customer/create', component: CreateCustomerComponent},
-            {path: 'customer/invoice/create', component: CreateInvoiceComponent},
+            {path: 'invoice/create', component: CreateInvoiceComponent},
             {path: 'customer/invoice', component: InvoiceComponent},
             {path: 'call-bot/create', component: CreateCallbotComponent},
             {path: 'partners/create', component: CreatePartnerComponent},

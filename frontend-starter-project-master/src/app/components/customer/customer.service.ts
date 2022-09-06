@@ -13,10 +13,13 @@ export class CustomerService {
 
   constructor(private http : HttpClient) { }
 
-  // get(id: any): Observable<Customer> {
-  //   return this.http.get<Customer>(`${baseUrl}/${id}`);
-  // }
+  findById(id: any): Observable<BasicResponse> {
+    return this.http.get<BasicResponse>(SERVICE_URLS.customers + '/find-customer/' + id);
+  }
 
+  getAll(): Observable<BasicResponse>{
+    return this.http.get<BasicResponse>(SERVICE_URLS.customers + '/get-all');
+  }
 
   search(params: any): Observable<BasicResponse>{
     return this.http.post<BasicResponse>(SERVICE_URLS.customers + '/search', params);

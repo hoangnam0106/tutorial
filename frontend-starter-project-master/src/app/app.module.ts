@@ -50,9 +50,11 @@ import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { CreateCustomerComponent } from './components/customer/create-customer/create-customer.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-import { CreateInvoiceComponent } from './components/invoice/create-invoice/create-invoice.component';
+import {CreateInvoiceComponent, DialogProduct} from './components/invoice/create-invoice/create-invoice.component';
 import {MatListModule} from '@angular/material/list';
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatDialogModule} from "@angular/material/dialog";
+
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -82,7 +84,8 @@ const routerConfig: ExtraOptions = {
         CustomerComponent,
         CreateCustomerComponent,
         InvoiceComponent,
-        CreateInvoiceComponent
+        CreateInvoiceComponent,
+        DialogProduct
 
     ],
     imports: [
@@ -125,7 +128,9 @@ const routerConfig: ExtraOptions = {
         MatCheckboxModule,
         MatListModule,
         MatGridListModule,
-        FormsModule
+        FormsModule,
+        MatDialogModule
+
     ],
     providers:[DatePipe],
     // providers:[
